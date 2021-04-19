@@ -9,21 +9,11 @@ from mne.externals.pymatreader import read_mat
 import os
 import shutil
 
-# given a directory, generate new data
-# loop through dir
-    # for each file f
-        # create a directory for file f and generate new data
-
-# global vars
-# TDC_dir = "Data/OriginalData/CleanData/CleanData_TDC"
-# IDD_dir = "Data/OriginalData/CleanData/CleanData_IDD"
-# os.chdir(TDC_dir)
-
 
 def generate_data(filename, file_path, data_path, clip_size=640):
     """
     Generates new data for a given file
-    
+
     :param filename: name of file to use to generate data from
     :param data_path: path for new data directory
     :param file_path: path to file to generate data
@@ -73,7 +63,4 @@ for group_dir in os.listdir(original_data_path):
             f_path = os.path.join(base_path, type_dir_path, file)
             file_dir = file[:-4]
             d_path = os.path.join(base_path, generated_data_path, group_dir, type_dir, file_dir)
-            # print("file:", file)
-            # print("f_path:", f_path)
-            # print("d_path:", d_path)
             generate_data(file, f_path, d_path, 640)
