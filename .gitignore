@@ -2,3 +2,5 @@ documents
 .DS_Store
 _DS_Store
 .idea
+/examples/
+.ipynb_checkpoints/
