@@ -9,17 +9,29 @@ from mne.externals.pymatreader import read_mat
 import os
 import shutil
 
+# paths
+original_data_path = "Data/OriginalData/CleanData/"
+generated_data_path = "Data/GeneratedData/"
+base_path = "/Users/koda/Documents/UCSC/CSE247/project"
 
-def generate_data(filename, file_path, data_path, clip_size=640):
+# GLOBAL VARS
+clip_length = 5  # length of clip in seconds
+freq = 128  # sampling frequency
+
+
+def generate_data(filename, file_path, data_path, clip_len):
     """
     Generates new data for a given file
 
     :param filename: name of file to use to generate data from
     :param data_path: path for new data directory
     :param file_path: path to file to generate data
-    :param clip_size: how long a clip to slice from original recording, default 640
+    :param clip_len: how long a clip to slice from original recording
     :return: None
     """
+
+    clip_size = clip_len * freq
+
     # read data from .mat file
     data = read_mat(file_path)["clean_data"]
 
@@ -43,11 +55,6 @@ def generate_data(filename, file_path, data_path, clip_size=640):
     os.chdir(base_path)
 
 
-# paths
-original_data_path = "Data/OriginalData/CleanData/"
-generated_data_path = "Data/GeneratedData/"
-base_path = "/Users/koda/Documents/UCSC/CSE247/project"
-
 for group_dir in os.listdir(original_data_path):
     if group_dir[0] == ".":
         continue
@@ -63,4 +70,4 @@ for group_dir in os.listdir(original_data_path):
             f_path = os.path.join(base_path, type_dir_path, file)
             file_dir = file[:-4]
             d_path = os.path.join(base_path, generated_data_path, group_dir, type_dir, file_dir)
-            generate_data(file, f_path, d_path, 640)
+            generate_data(file, f_path, d_path, clip_length)
