@@ -16,7 +16,7 @@ def combine_data(path, filename):
         for file in os.listdir(subj_dir_path):
             X.append(np.loadtxt(os.path.join(subj_dir_path, file)))
         print(f"Loaded {subj_dir} files")
-    np.save(os.path.join("Data/GeneratedData", filename), X)
+    np.save(os.path.join("Data/GeneratedData/combined_data", filename), X)
 
 
 if __name__ == "__main__":
