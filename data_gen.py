@@ -8,9 +8,10 @@ import numpy as np
 from mne.externals.pymatreader import read_mat
 import os
 import shutil
+import glob
 
 
-def generate_data(filename, file_path, data_path, clip_len):
+def generate_data(filename, file_path, data_path, clip_len=2, overlap=0.9):
     """
     Generates new data for a given file
 
@@ -18,6 +19,7 @@ def generate_data(filename, file_path, data_path, clip_len):
     :param data_path: path for new data directory
     :param file_path: path to file to generate data
     :param clip_len: how long a clip to slice from original recording
+    :param overlap: amount of overlap between adjacent clips
     :return: None
     """
 
@@ -34,7 +36,7 @@ def generate_data(filename, file_path, data_path, clip_len):
 
     # generate new data
     start = 0
-    step = int(clip_size * 0.1)  # 90% overlap
+    step = int(clip_size * (1-overlap))  # 90% overlap
     count = 1
     print(f"Generating data for {filename}")
     while clip_size < np.shape(data)[1]:
@@ -72,3 +74,11 @@ if __name__ == "__main__":
                 file_dir = file[:-4]
                 d_path = os.path.join(base_path, generated_data_path, group_dir, type_dir, file_dir)
                 generate_data(file, f_path, d_path, clip_length)
+
+    # TODO: implement glob
+    # for file_path in glob.glob("Data/OriginalData/CleanData/**/*.mat", recursive=True):
+    #     # create directory for file and populate with new data.
+    #     # f_path = os.path.join(base_path, type_dir_path, file)
+    #     file_dir = file_path[:-4]
+    #     data_path = os.path.join(base_path, generated_data_path, group_dir, type_dir, file_dir)
+    #     generate_data(file, file_path, d_path, clip_length)

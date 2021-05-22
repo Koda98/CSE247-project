@@ -3,7 +3,9 @@ File to combine data into npy files
 """
 
 import os
+import pathlib
 import numpy as np
+import glob
 
 
 def combine_data(path, filename):
@@ -17,6 +19,8 @@ def combine_data(path, filename):
             X.append(np.load(os.path.join(subj_dir_path, file)))
         print(f"Loaded {subj_dir} files")
     np.save(os.path.join("Data/GeneratedData/combined_data", filename), X)
+
+    # TODO: implement glob or pathlib
 
 
 if __name__ == "__main__":
