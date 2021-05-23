@@ -57,6 +57,7 @@ if __name__ == "__main__":
 
     clip_length = 2  # length of clip in seconds
     freq = 128  # sampling frequency
+    overlap = 0.9
 
     for group_dir in os.listdir(original_data_path):
         if group_dir[0] == ".":
@@ -73,7 +74,7 @@ if __name__ == "__main__":
                 f_path = os.path.join(base_path, type_dir_path, file)
                 file_dir = file[:-4]
                 d_path = os.path.join(base_path, generated_data_path, group_dir, type_dir, file_dir)
-                generate_data(file, f_path, d_path, clip_length)
+                generate_data(file, f_path, d_path, clip_length, overlap)
 
     # TODO: implement glob
     # for file_path in glob.glob("Data/OriginalData/CleanData/**/*.mat", recursive=True):
