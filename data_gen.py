@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
     clip_length = 2  # length of clip in seconds
     freq = 128  # sampling frequency
-    overlap = 0.9
+    overlap = 0.95
 
     for group_dir in os.listdir(original_data_path):
         if group_dir[0] == ".":
