@@ -36,7 +36,7 @@ def generate_data(filename, file_path, data_path, clip_len=2, overlap=0.9):
 
     # generate new data
     start = 0
-    step = int(clip_size * (1-overlap))  # 90% overlap
+    step = int(clip_size * (1-overlap))
     count = 1
     print(f"Generating data for {filename}")
     while clip_size < np.shape(data)[1]:
@@ -55,9 +55,9 @@ if __name__ == "__main__":
     generated_data_path = "Data/GeneratedData/"
     base_path = "/Users/koda/Documents/UCSC/CSE247/project"
 
-    clip_length = 2  # length of clip in seconds
+    clip_length = 2   # length of clip in seconds
     freq = 128  # sampling frequency
-    overlap = 0.95
+    overlap = 0.9
 
     for group_dir in os.listdir(original_data_path):
         if group_dir[0] == ".":
