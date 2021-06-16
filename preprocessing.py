@@ -1,5 +1,8 @@
 """
-Script to generate more training data.
+Script to preprocess data.
+
+# TODO: Modify generate_data() to combine the clips into 1 for each group/type.
+        # Then the combine_data function won't be needed
 
 Author: Kyle Oda (kynoda@ucsc.edu)
 """
@@ -8,13 +11,31 @@ import numpy as np
 from scipy.io import loadmat
 import os
 import shutil
-# import glob
-import pathlib
+# import pathlib
+
+
+def combine_data(path, filename):
+    """
+    Combines a series of EEG clips into 1 numpy file
+    :param path: directory path where clips are saved
+    :param filename: name for the new file of combined clips
+    :return: None
+    """
+    base_path = os.getcwd()
+    X = []
+    for subj_dir in os.listdir(path):
+        if subj_dir[0] == ".":
+            continue
+        subj_dir_path = os.path.join(base_path, path, subj_dir)
+        for file in os.listdir(subj_dir_path):
+            X.append(np.load(os.path.join(subj_dir_path, file)))
+        print(f"Loaded {subj_dir} files")
+    np.save(os.path.join("Data/GeneratedData/combined_data", filename), X)
+
 
 def generate_data(filename, file_path, data_path, clip_len=2, overlap=0.9):
     """
     Generates new data for a given file
-
     :param filename: name of file to use to generate data from
     :param data_path: path for new data directory
     :param file_path: path to file to generate data
@@ -49,17 +70,16 @@ def generate_data(filename, file_path, data_path, clip_len=2, overlap=0.9):
 
 
 if __name__ == "__main__":
-    # GLOBAL VARS
     # paths
     original_data_path = "Data/OriginalData/CleanData/"
     generated_data_path = "Data/GeneratedData/"
     base_path = os.getcwd()
 
-    clip_length = 2   # length of clip in seconds
+    clip_length = 2  # length of clip in seconds
     freq = 128  # sampling frequency
     overlap = 0.9
 
-    # TODO: super jank, should implement with pathlib
+    # TODO: super jank, should reimplement with pathlib
     for group_dir in os.listdir(original_data_path):
         if group_dir[0] == ".":
             continue
@@ -76,3 +96,9 @@ if __name__ == "__main__":
                 file_dir = file[:-4]
                 d_path = os.path.join(base_path, generated_data_path, group_dir, type_dir, file_dir)
                 generate_data(file, f_path, d_path, clip_length, overlap)
+
+    # Combine clips into 1 file for each category
+    combine_data("Data/GeneratedData/CleanData_IDD/Music", "IDD_music")
+    combine_data("Data/GeneratedData/CleanData_IDD/Rest", "IDD_rest")
+    combine_data("Data/GeneratedData/CleanData_TDC/Music", "TDC_music")
+    combine_data("Data/GeneratedData/CleanData_TDC/Rest", "TDC_rest")
