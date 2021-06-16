@@ -8,3 +8,8 @@ _DS_Store
 /Data/GeneratedData_copy
 images
 .vscode
+
+combine_data.py
+data_gen.py
+transform.ipynb
+Vanilla_CNN.ipynb
