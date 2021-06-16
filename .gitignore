@@ -13,3 +13,4 @@ combine_data.py
 data_gen.py
 transform.ipynb
 Vanilla_CNN.ipynb
+/models/
